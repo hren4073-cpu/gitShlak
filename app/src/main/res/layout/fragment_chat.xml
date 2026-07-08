@@ -55,7 +55,7 @@
             android:id="@+id/buttonLoadDocument"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📥 Load Document"
+            android:text="📄 Load Document"
             android:layout_marginTop="8dp"
             android:visibility="gone" />
     </LinearLayout>
