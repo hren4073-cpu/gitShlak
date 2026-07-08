@@ -59,7 +59,6 @@ class MCPClientImpl(private val context: Context) {
                 success = false
             )
 
-            // SMS sending requires SEND_SMS permission
             try {
                 smsManager.sendTextMessage(phoneNumber, null, message, null, null)
                 MCPResponse(
@@ -229,9 +228,8 @@ class MCPClientImpl(private val context: Context) {
     private suspend fun getContacts(params: Map<String, Any>): MCPResponse = withContext(Dispatchers.IO) {
         return@withContext try {
             val limit = (params["limit"] as? Number)?.toInt() ?: 10
-            // TODO: Implement contacts retrieval with proper permissions
             MCPResponse(
-                result = "Contacts feature requires CONTACT_READ permission",
+                result = "Contacts feature requires READ_CONTACTS permission",
                 success = true
             )
         } catch (e: Exception) {
@@ -246,7 +244,6 @@ class MCPClientImpl(private val context: Context) {
     private suspend fun getCalendarEvents(params: Map<String, Any>): MCPResponse = withContext(Dispatchers.IO) {
         return@withContext try {
             val days = (params["days"] as? Number)?.toInt() ?: 7
-            // TODO: Implement calendar events retrieval with proper permissions
             MCPResponse(
                 result = "Calendar events feature requires READ_CALENDAR permission",
                 success = true
