@@ -1,0 +1,55 @@
+# 1. Клонируйте репозиторий
+git clone https://github.com/hren4073-cpu/gitShlak.git
+cd gitShlak
+
+# 2. Переключитесь на ветку
+git checkout feature/unified-chat-with-rag
+
+# 3. Создайте/отредактируйте .github/workflows/android-build.yml
+mkdir -p .github/workflows
+cat > .github/workflows/android-build.yml << 'EOF'
+name: Android Build
+
+on:
+  push:
+    branches:
+      - feature/unified-chat-with-rag
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+      - run: chmod +x ./gradlew
+      - run: ./gradlew build
+      - run: ./gradlew assembleRelease
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-release
+          path: app/build/outputs/apk/release/
+      - run: ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/
+EOF
+
+# 4. Добавьте и закоммитьте
+git add .github/workflows/android-build.yml
+git commit -m "Add GitHub Actions CI/CD workflow"
+
+# 5. Push в GitHub
+git push origin feature/unified-chat-with-rag
+
+# 6. Откройте https://github.com/hren4073-cpu/gitShlak/actions
+# Build начнется автоматически!
